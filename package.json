@@ -10,7 +10,7 @@
     "Airdrop"
   ],
   "scripts": {
-    "dev": "concurrently \"node backend/server.js\" \"next dev\"",
+    "dev": "next dev",
     "build": "next build",
     "lint": "next lint",
     "prepare": "husky install"

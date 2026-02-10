@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import ReactGA from 'react-ga4';
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import classNames from 'classnames';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
@@ -14,6 +14,7 @@ import { useLogoutCallback } from '@/hooks/user';
 function Web3StatusInner() {
   const { address, connector } = useAccount();
   const { data: balance } = useBABTBalanceOf({ address });
+  const { data: connectedBalance } = useBalance({ address })
   const gamerEmailInfo = useRecoilValue(gamerEmailInfoAtom);
   const setIsBABTHolder = useSetRecoilState(isBABTHolderAtom);
   const isBABTHolder = useMemo(() => !!(balance && balance.toString() !== '0'), [balance]);
@@ -63,6 +64,7 @@ function Web3StatusInner() {
           )}
         >
           <p className={classNames(isBABTHolder && 'font-medium text-black')}>{shortenAddress(address)}</p>
+          <p className={classNames(isBABTHolder && 'font-medium text-black')}>: {connectedBalance?.formatted ?? 0} {connectedBalance?.symbol}</p>
           <div className="ml-3 h-6.5 w-6.5 overflow-hidden rounded-full border border-white bg-p12-gradient sm:hidden">
             {isBABTHolder ? (
               <img
